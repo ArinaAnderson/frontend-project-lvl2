@@ -19,8 +19,8 @@ const parseData = (fileName) => { // here pass dataright away -- datathat was re
 };
 */
 
-const parseData = (fileName, fileData) => {
-  if (isJSON(fileName)) {
+const parseData = (filePath, fileData) => {
+  if (isJSON(filePath)) {
     return JSON.parse(fileData);
   }
 };
