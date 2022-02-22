@@ -3,7 +3,7 @@ import path from 'path';
 import _ from 'lodash';
 import genDiffString from './src/genDiffString.js';
 
-const getFilePath = (fileName) => path.resolve(process.cwd(), '__fixtures__', fileName);
+const getFilePath = (fileName) => path.resolve(process.cwd(), fileName);
 
 const readFileContent = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
