@@ -7,7 +7,7 @@ const genDiffString = (obj1, obj2) => {
   const sortedKeys = keys.sort();
 
   // const diffsString = sortedKeys.reduce((acc, key) => {
-  //}, '{');
+  // }, '{');
   const newVals = sortedKeys.map((key) => {
     if (diffs[key] === 'added') {
       return [`  + ${key}: ${obj2[key]}`];

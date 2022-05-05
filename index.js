@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
 import genDiffString from './src/genDiffString.js';
 
 const getFilePath = (fileName) => path.resolve(process.cwd(), fileName);
@@ -23,6 +22,7 @@ const parseData = (filePath, fileData) => {
   if (isJSON(filePath)) {
     return JSON.parse(fileData);
   }
+  return fileData;
 };
 
 const genDiff = (file1, file2) => {

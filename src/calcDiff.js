@@ -28,7 +28,7 @@ const calcDiff = (obj1, obj2) => {
       return { ...acc, [key]: 'deleted' };
     }
     if (obj1[key] !== obj2[key]) {
-        return { ...acc, [key]: 'changed' };
+      return { ...acc, [key]: 'changed' };
     }
     return { ...acc, [key]: 'unchanged' };
   }, {});
