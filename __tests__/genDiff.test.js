@@ -7,26 +7,12 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 // console.log(__filename);
-// /Users/marinalex/MY-FOLDERS/Gvenya-prog/2021-2022/HEXLET/Project-2/frontend-project-lvl2/__tests__/genDiff.test.js
+// /Users/marinalex/MY-FOLDERS/Gvenya-prog/2021-2022/HEXLET/Project-2/
+// frontend-project-lvl2/__tests__/genDiff.test.js
+
 // console.log(__dirname);
-// /Users/marinalex/MY-FOLDERS/Gvenya-prog/2021-2022/HEXLET/Project-2/frontend-project-lvl2/__tests__
-
-/*
-test('comparing flat files', () => {
-  const result = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`;
-
-  const file1Path = getFixturePath('file1.json');
-  const file2Path = getFixturePath('file2.json');
-  expect(genDiff(file1Path, file2Path)).toEqual(result);
-});
-*/
+// /Users/marinalex/MY-FOLDERS/Gvenya-prog/2021-2022/HEXLET/Project-2/
+// frontend-project-lvl2/__tests__
 
 const result = `{
   - follow: false
@@ -36,7 +22,6 @@ const result = `{
   + timeout: 20
   + verbose: true
 }`;
-
 
 test('comparing flat json files', () => {
   const file1Path = getFixturePath('file1.json');
