@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import calcDiff from './calcDiff.js';
 
-const genDiffString = (obj1, obj2) => {
+const stringify = (obj1, obj2) => {
   const diffs = calcDiff(obj1, obj2);
   const keys = _.keys(diffs);
   const sortedKeys = keys.sort();
@@ -24,4 +24,4 @@ const genDiffString = (obj1, obj2) => {
   return `{\n${res}\n}`;
 };
 
-export default genDiffString;
+export default stringify;
