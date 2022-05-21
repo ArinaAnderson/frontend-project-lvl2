@@ -23,6 +23,7 @@ const result = `{
   + verbose: true
 }`;
 
+/*
 test('comparing flat json files', () => {
   const file1Path = getFixturePath('file1.json');
   const file2Path = getFixturePath('file2.json');
@@ -33,4 +34,14 @@ test('comparing flat yaml files', () => {
   const file1Path = getFixturePath('file1.yaml');
   const file2Path = getFixturePath('file2.yaml');
   expect(genDiff(file1Path, file2Path)).toEqual(result);
+});
+*/
+
+test.each([
+  { fileName1: 'file1.json', fileName2: 'file2.json', expected: result },
+  { fileName1: 'file1.yaml', fileName2: 'file2.yaml', expected: result },
+])('comparing flat files', ({ fileName1, fileName2, expected }) => {
+  const file1Path = getFixturePath(fileName1);
+  const file2Path = getFixturePath(fileName2);
+  expect(genDiff(file1Path, file2Path)).toEqual(expected);
 });
