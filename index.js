@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import genDiffString from './src/genDiffString.js';
+import calcDiff from './src/calcDiff.js';
+import stringify from './src/stringify.js';
 
 const getFilePath = (fileName) => path.resolve(process.cwd(), fileName);
 
@@ -32,8 +33,8 @@ const genDiff = (file1, file2) => {
   const file2Content = readFileContent(file2Path);
   const data1 = parseData(file1Path, file1Content);
   const data2 = parseData(file2Path, file2Content);
-
-  return genDiffString(data1, data2);
+  const diffsObj = calcDiff(data1, data2);
+  return stringify(data1, data2, diffsObj);
 };
 
 export default genDiff;
