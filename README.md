@@ -17,15 +17,4 @@
 
 ### Process
 #### as of Step 5:
-                     
-                      __________________                        __________
-_________________    | data1            |                      | object 1 |
-| **index.js**  |    | .json/.yaml/.yml |\                     |__________|\   _____________________
-| external data |    |__________________| \ ________________  /             \ |   **calcDiff.js**   |       __________________
-| user.input    |                          | **parsers.js** |/               \|                     |      |                  |
-|_______________|     __________________   |________________|\               /| builds a tree of    |______| **stringify.js** |
-                     | data2            | /                   \ __________  / | differences between |      |__________________| 
-                     | .json/.yaml/.yml |/                     | object 2 |/  | object1 and object2 |
-                     |__________________|                      |__________|   |_____________________|
-                 
-                      
+![architecture of lib as of step5](https://imgur.com/TWKAYmP)                      
