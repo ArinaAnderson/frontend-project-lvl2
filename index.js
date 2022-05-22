@@ -3,38 +3,29 @@ import path from 'path';
 import calcDiff from './src/calcDiff.js';
 import stringify from './src/stringify.js';
 
-const getFilePath = (fileName) => path.resolve(process.cwd(), fileName);
-
+const getAbsoluteFilePath = (fileName) => path.resolve(process.cwd(), fileName);
 const readFileContent = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
 const isJSON = (fileName) => path.extname(fileName) === '.json';
-
-/*
-const parseData = (fileName) => { // here pass dataright away -- datathat was read from a file
-  const filePath = getFilePath(fileName);
-  const fileContent = getFileContent(filePath);
+const parseData = (fileName, fileData) => {
   if (isJSON(fileName)) {
-    return JSON.parse(fileContent);
-  }
-};
-*/
-
-const parseData = (filePath, fileData) => {
-  if (isJSON(filePath)) {
     return JSON.parse(fileData);
   }
   return fileData;
 };
 
 const genDiff = (file1, file2) => {
-  const file1Path = getFilePath(file1);
-  const file2Path = getFilePath(file2);
-  const file1Content = readFileContent(file1Path);
-  const file2Content = readFileContent(file2Path);
-  const data1 = parseData(file1Path, file1Content);
-  const data2 = parseData(file2Path, file2Content);
-  const diffsObj = calcDiff(data1, data2);
-  return stringify(data1, data2, diffsObj);
+  const absoluteFile1Path = getAbsoluteFilePath(file1);
+  const absoluteFile2Path = getAbsoluteFilePath(file2);
+  
+  const file1Content = readFileContent(absoluteFile1Path);
+  const file2Content = readFileContent(absoluteFile2Path);
+  
+  const obj1 = parseData(file1, file1Content);
+  const obj2 = parseData(file2, file2Content);
+  const diffsObj = calcDiff(obj1, obj2);
+  const result = stringify(obj1, obj2, diffsObj);
+  return result;
 };
 
 export default genDiff;
