@@ -17,4 +17,4 @@
 
 ### Process
 #### as of Step 5:
-![architecture of lib as of step5](https://imgur.com/TWKAYmP)                      
+![architecture of lib as of step5](https://i.imgur.com/TWKAYmP.png)                      
