@@ -2,8 +2,8 @@ import _ from 'lodash';
 // import calcDiff from './calcDiff.js';
 
 // const stringify = (obj1, obj2) => {
-  // const diffs = calcDiff(obj1, obj2);
-  // const keys = _.keys(diffs);
+// const diffs = calcDiff(obj1, obj2);
+// const keys = _.keys(diffs);
 const stringify = (obj1, obj2, diffsObj) => {
   const keys = _.keys(diffsObj);
   const sortedKeys = keys.sort();
