@@ -14,3 +14,18 @@
 
 [gendiff (step5) demonstration](https://asciinema.org/a/wx9yhx5QOdsXYl8PJRBNmCBzm)
 [![asciicast](https://asciinema.org/a/dcqF2BuH1VxrtryT77eF6RvSX.png)](https://asciinema.org/a/wx9yhx5QOdsXYl8PJRBNmCBzm)
+
+### Process
+#### as of Step 5:
+                     
+                      __________________                        __________
+_________________    | data1            |                      | object 1 |
+| **index.js**  |    | .json/.yaml/.yml |\                     |__________|\   _____________________
+| external data |    |__________________| \ ________________  /             \ |   **calcDiff.js**   |       __________________
+| user.input    |                          | **parsers.js** |/               \|                     |      |                  |
+|_______________|     __________________   |________________|\               /| builds a tree of    |______| **stringify.js** |
+                     | data2            | /                   \ __________  / | differences between |      |__________________| 
+                     | .json/.yaml/.yml |/                     | object 2 |/  | object1 and object2 |
+                     |__________________|                      |__________|   |_____________________|
+                 
+                      
