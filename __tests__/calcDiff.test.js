@@ -1,63 +1,23 @@
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs';
+
 import calcDiff from '../src/calcDiff.js';
 
-const obj1 = {
-  common: {
-    setting1: 'Value 1',
-    setting2: 200,
-    setting3: true,
-    setting6: {
-      key: 'value',
-      doge: {
-        wow: '',
-      },
-    },
-  },
-  group1: {
-    baz: 'bas',
-    foo: 'bar',
-    nest: {
-      key: 'value',
-    },
-  },
-  group2: {
-    abc: 12345,
-    deep: {
-      id: 45,
-    },
-  },
-};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
-const obj2 = {
-  common: {
-    follow: false,
-    setting1: 'Value 1',
-    setting3: null,
-    setting4: 'blah blah',
-    setting5: {
-      key5: 'value5',
-    },
-    setting6: {
-      key: 'value',
-      ops: 'vops',
-      doge: {
-        wow: 'so much',
-      },
-    },
-  },
-  group1: {
-    foo: 'bar',
-    baz: 'bars',
-    nest: 'str',
-  },
-  group3: {
-    deep: {
-      id: {
-        number: 45,
-      },
-    },
-    fee: 100500,
-  },
-};
+let obj1;
+let obj2;
+
+beforeAll(() => {
+  const obj1Path = getFixturePath('file-nested-1.json');
+  const obj2Path = getFixturePath('file-nested-2.json');
+  obj1 = JSON.parse(readFile(obj1Path));
+  obj2 = JSON.parse(readFile(obj2Path));
+});
 
 const expectedResult = {
   common: {
