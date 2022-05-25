@@ -13,8 +13,8 @@ let obj1;
 let obj2;
 
 beforeAll(() => {
-  const obj1Path = getFixturePath('file-nested-1.json');
-  const obj2Path = getFixturePath('file-nested-2.json');
+  const obj1Path = getFixturePath('file1.json');
+  const obj2Path = getFixturePath('file2.json');
   obj1 = JSON.parse(readFile(obj1Path));
   obj2 = JSON.parse(readFile(obj2Path));
 });
