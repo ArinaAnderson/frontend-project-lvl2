@@ -18,17 +18,10 @@ const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
 // frontend-project-lvl2/__tests__
 
 let expectedResultStylish;
+
 let expectedResultOriginal;
-/*
-const stylishResultPath = getFixturePath('expect-result-original.txt');
-expectedResultOriginal = readFile(stylishResultPath);
-*/
-
-beforeAll(() => {
-  const originalResultPath = getFixturePath('expect-result-original.txt');
-  expectedResultOriginal = readFile(originalResultPath);
-});
-
+const originalResultPath = getFixturePath('expect-result-original.txt');
+expectedResultOriginal = readFile(originalResultPath);
 
 test.each([
   { fileName1: 'file1A.json', fileName2: 'file2A.json', expected: expectedResultOriginal },
