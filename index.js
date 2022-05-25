@@ -7,7 +7,7 @@ import stringify from './src/stringify.js';
 const getAbsoluteFilePath = (fileName) => path.resolve(process.cwd(), fileName);
 const readFileContent = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
-const genDiff = (file1, file2) => {
+const genDiff = (file1, file2, format = 'stylish') => {
   const absoluteFile1Path = getAbsoluteFilePath(file1);
   const absoluteFile2Path = getAbsoluteFilePath(file2);
 
@@ -19,7 +19,7 @@ const genDiff = (file1, file2) => {
 
   const diffsObj = calcDiff(obj1, obj2);
 
-  const result = stringify(obj1, obj2, diffsObj);
+  const result = stringify(obj1, obj2, diffsObj, format);
   return result;
 };
 
