@@ -9,19 +9,10 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
-// console.log(__filename);
-// /Users/marinalex/MY-FOLDERS/Gvenya-prog/2021-2022/HEXLET/Project-2/
-// frontend-project-lvl2/__tests__/genDiff.test.js
+// let expectedResultStylish;
 
-// console.log(__dirname);
-// /Users/marinalex/MY-FOLDERS/Gvenya-prog/2021-2022/HEXLET/Project-2/
-// frontend-project-lvl2/__tests__
-
-let expectedResultStylish;
-
-let expectedResultOriginal;
 const originalResultPath = getFixturePath('expect-result-original.txt');
-expectedResultOriginal = readFile(originalResultPath);
+const expectedResultOriginal = readFile(originalResultPath);
 
 test.each([
   { fileName1: 'file1A.json', fileName2: 'file2A.json', expected: expectedResultOriginal },
@@ -31,11 +22,3 @@ test.each([
   const file2Path = getFixturePath(fileName2);
   expect(genDiff(file1Path, file2Path)).toEqual(expected);
 });
-
-/*
-test('compare files', () => {
-  const file1Path = getFixturePath('file1A.json');
-  const file2Path = getFixturePath('file2A.json');
-  expect(genDiff(file1Path, file2Path)).toEqual(expectedResultOriginal);
-});
-*/
