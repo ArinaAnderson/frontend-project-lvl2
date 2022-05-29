@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import defineParser from './src/parsers.js';
-import calcDiff from './src/calcDiff.js';
+import buildDiffTree from './src/buildDiffTree.js';
 import stringify from './src/stringify.js';
 
 const getAbsoluteFilePath = (fileName) => path.resolve(process.cwd(), fileName);
@@ -17,7 +17,7 @@ const genDiff = (file1, file2, format = 'stylish') => {
   const obj1 = defineParser(absoluteFile1Path)(file1Content);
   const obj2 = defineParser(absoluteFile2Path)(file2Content);
 
-  const diffsObj = calcDiff(obj1, obj2);
+  const diffsObj = buildDiffTree(obj1, obj2);
 
   const result = stringify(obj1, obj2, diffsObj, format);
   return result;
