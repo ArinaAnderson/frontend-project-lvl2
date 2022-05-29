@@ -28,18 +28,7 @@ const buildDiffTree = (obj1, obj2) => {
       keyNode.diffSubTree = buildDiffTree(obj1[key], obj2[key]);
       return { ...acc, [key]: keyNode };
     }
-    /*
-    if (isArray(obj1[key]) && isArray(obj2[key])) {
-      if (isEqual(obj1[key], obj2.key)) {
-        keyNode.state = 'unchanged';
-        keyNode.val = obj1[key];
-      } else {
-        keyNode.state = 'changed';
-        keyNode.val1 = obj1[key];
-        keyNode.val2 = obj2[key];
-      }
-    }
-    */
+
     if (obj1[key] !== obj2[key]) {
       keyNode.state = 'changed';
       keyNode.val1 = obj1[key];
