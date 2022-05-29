@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 const isObject = (val) => _.isObject(val) && !_.isArray(val);
-// const isArray = (val) => _.isArray(val);
 
 const buildDiffTreeNode = (obj1, obj2, key, fn) => {
   const keyNode = {};
@@ -35,7 +34,7 @@ const buildDiffTree = (obj1, obj2) => {
   const diffTree = keys.reduce((acc, key) => {
     const keyNode = buildDiffTreeNode(obj1, obj2, key, buildDiffTree);
     return { ...acc, [key]: keyNode };
-  }, {}); // {
+  }, {});
 
   /*
   const keyNode = {};
@@ -68,12 +67,12 @@ const buildDiffTree = (obj1, obj2) => {
   keyNode.val = obj1[key];
   return { ...acc, [key]: keyNode };
   */
-  // }, {});
 
   return diffTree;
 };
 
 export default buildDiffTree;
+
 /*
 const objAA = {
   "common": {
