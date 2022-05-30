@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const stringify = (value, indentBase, depth, replacer = ' ') => {
+const stringify = (value, indentBase = 4, depth = 1, replacer = ' ') => {
   const iter = (val, indent) => {
     if (!_.isObject(val)) {
       return `${val}`;
