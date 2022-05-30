@@ -18,9 +18,8 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const generalMarker = '  ';
   const plusMarker = '+ ';
   const minusMarker = '- ';
-  
+
   const iter = (diffs, depth) => {
-    
     const indent = replacer.repeat(depth * indentBase - generalMarker.length);
     const keys = _.keys(diffs);
 
@@ -30,12 +29,12 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
         const line = [`${indent}${plusMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`];
         return line;
       }
-      
+
       if (node.state === 'deleted') {
         const line = [`${indent}${minusMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`];
         return line;
       }
-      
+
       if (node.state === 'changed') {
         const line1 = `${indent}${minusMarker}${key}: ${stringify(node.val1, indentBase, depth + 1, replacer)}`;
         const line2 = `${indent}${plusMarker}${key}: ${stringify(node.val2, indentBase, depth + 1, replacer)}`;

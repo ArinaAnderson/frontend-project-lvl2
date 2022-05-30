@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import defineParser from './src/parsers.js';
 import buildDiffTree from './src/buildDiffTree.js';
-import stringify from './src/stringify.js';
+import formatStylish from './src/formatStylish.js';
 
 const getAbsoluteFilePath = (fileName) => path.resolve(process.cwd(), fileName);
 const readFileContent = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
-const genDiff = (file1, file2, format = 'stylish') => {
+const genDiff = (file1, file2) => { // format = 'stylish') => {
   const absoluteFile1Path = getAbsoluteFilePath(file1);
   const absoluteFile2Path = getAbsoluteFilePath(file2);
 
@@ -19,7 +19,7 @@ const genDiff = (file1, file2, format = 'stylish') => {
 
   const diffsObj = buildDiffTree(obj1, obj2);
 
-  const result = stringify(obj1, obj2, diffsObj, format);
+  const result = formatStylish(diffsObj);
   return result;
 };
 
