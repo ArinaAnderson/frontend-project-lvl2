@@ -14,6 +14,24 @@ const stringify = (value, indentBase = 4, depth = 1, replacer = ' ') => {
   return iter(value, depth * indentBase);
 };
 
+/*
+const defineMarker = (nodeState, replacer = ' ') => {
+  switch (nodeState) {
+    case 'added':
+      return [`+${replacer}`];
+    case '':
+      return 
+  }
+};
+
+const createLine = (nodeState, propertyValue, margin, replacer) => { // (nodeState, indent) => {
+  const marker = defineMarker(nodeState, replacer);
+  const line = `${margin}${marker}${key}: ${propertyValue}`;
+  return line;
+  // indent + marker + key + property
+};
+*/
+
 const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const generalMarker = '  ';
   const plusMarker = '+ ';
@@ -26,13 +44,13 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
     const lines = keys.map((key) => {
       const node = diffs[key];
       if (node.state === 'added') {
-        const line = [`${indent}${plusMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`];
-        return line;
+        const line = `${indent}${plusMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`;
+        return [line];
       }
 
       if (node.state === 'deleted') {
-        const line = [`${indent}${minusMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`];
-        return line;
+        const line = `${indent}${minusMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`;
+        return [line];
       }
 
       if (node.state === 'changed') {
@@ -42,12 +60,12 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
       }
 
       if (node.state === 'unchanged') {
-        const line = [`${indent}${generalMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`];
-        return line;
+        const line = `${indent}${generalMarker}${key}: ${stringify(node.val, indentBase, depth + 1, replacer)}`;
+        return [line];
       }
 
-      const line = [`${indent}${generalMarker}${key}: ${iter(node.diffSubTree, depth + 1)}`];
-      return line;
+      const line = `${indent}${generalMarker}${key}: ${iter(node.diffSubTree, depth + 1)}`;
+      return [line];
     });
     return `{\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
   };
