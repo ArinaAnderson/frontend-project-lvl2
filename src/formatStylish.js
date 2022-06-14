@@ -40,155 +40,169 @@ const createLine = (key, value, margin) => `${margin}${key}: ${value}`;
 
 const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
-    // const indent = replacer.repeat(depth * indentBase - generalMarker.length);
     const indent = defineIndent(depth * indentBase, replacer);
-    const keys = _.keys(diffs);
 
-    const lines = keys.map((key) => {
-      const node = diffs[key];
+    const lines = diffs.map((node) => {
+      if (node.state === 'diffSubTree') {
+        const marker = defineMarker('unchanged', replacer);
+        const margin = `${indent}${marker}`;
+        const line = createLine(node.key, iter(node.diffSubTree, depth + 1), margin);
+        return line;
+      }
+
       if (node.state === 'added') {
         const marker = defineMarker(node.state, replacer);
         const margin = `${indent}${marker}`;
-        // const line = `${indent}${marker}${key}:
-        // ${stringify(node.val, indentBase, depth + 1, replacer)}`;
-        const line = createLine(key, stringify(node.val, indentBase, depth + 1, replacer), margin);
-        return [line];
+        const line = createLine(
+          node.key,
+          stringify(node.val, indentBase, depth + 1, replacer),
+          margin,
+        );
+        return line;
       }
 
       if (node.state === 'deleted') {
         const marker = defineMarker(node.state, replacer);
         const margin = `${indent}${marker}`;
-        // const line = `${indent}${marker}${key}:
-        // ${stringify(node.val, indentBase, depth + 1, replacer)}`;
-        const line = createLine(key, stringify(node.val, indentBase, depth + 1, replacer), margin);
-        return [line];
-      }
-
-      if (node.state === 'changed') {
-        const marker1 = defineMarker('deleted', replacer);
-        const marker2 = defineMarker('added', replacer);
-        const margin1 = `${indent}${marker1}`;
-        const margin2 = `${indent}${marker2}`;
-        const line1 = createLine(
-          key,
-          stringify(node.val1, indentBase, depth + 1, replacer),
-          margin1,
+        const line = createLine(
+          node.key,
+          stringify(node.val, indentBase, depth + 1, replacer),
+          margin,
         );
-
-        const line2 = createLine(
-          key,
-          stringify(node.val2, indentBase, depth + 1, replacer),
-          margin2,
-        );
-        // const line1 = `${indent}${defineMarker('deleted', replacer)}${key}:
-        // ${stringify(node.val1, indentBase, depth + 1, replacer)}`;
-        // const line2 = `${indent}${defineMarker('added', replacer)}${key}:
-        // ${stringify(node.val2, indentBase, depth + 1, replacer)}`;
-        return [line1, line2];
+        return line;
       }
 
-      if (node.state === 'unchanged') {
-        const marker = defineMarker(node.state, replacer);
-        const margin = `${indent}${marker}`;
-        // const line = `${indent}${marker}${key}:
-        // ${stringify(node.val, indentBase, depth + 1, replacer)}`;
-        const line = createLine(key, stringify(node.val, indentBase, depth + 1, replacer), margin);
-        return [line];
-      }
-
-      const marker = defineMarker('unchanged', replacer);
+      // if (node.state === 'unchanged') {
+      const marker = defineMarker(node.state, replacer);
       const margin = `${indent}${marker}`;
-      // const line = `${indent}${defineMarker('unchanged', replacer)}${key}:
-      // ${iter(node.diffSubTree, depth + 1)}`;
-      const line = createLine(key, iter(node.diffSubTree, depth + 1), margin);
-      return [line];
+      const line = createLine(
+        node.key,
+        stringify(node.val, indentBase, depth + 1, replacer),
+        margin,
+      );
+      return line;
+      // }
     });
-    return `{\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
+
+    return `{\n${lines.join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
   };
+
   return iter(diffsTree, 1);
 };
 
 export default formatStylish;
-
 /*
-const dif = {
-  "common": {
+const dif = [
+  {
+    "key": "common",
     "state": "diffSubTree",
-    "diffSubTree": {
-      "follow": {
+    "diffSubTree": [
+      {
+        "key": "follow",
         "state": "added",
         "val": false
       },
-      "setting1": {
+      {
+        "key": "setting1",
         "state": "unchanged",
         "val": "Value 1"
       },
-      "setting2": {
+      {
+        "key": "setting2",
         "state": "deleted",
         "val": 200
       },
-      "setting3": {
-        "state": "changed",
-        "val1": true,
+      {
+        "key": "setting3",
+        "state": "deleted",
+        "val1": true
+      },
+      {
+        "key": "setting3",
+        "state": "added",
         "val2": null
       },
-      "setting4": {
+      {
+        "key": "setting4",
         "state": "added",
         "val": "blah blah"
       },
-      "setting5": {
+      {
+        "key": "setting5",
         "state": "added",
         "val": {
           "key5": "value5"
         }
       },
-      "setting6": {
+      {
+        "key": "setting6",
         "state": "diffSubTree",
-        "diffSubTree": {
-          "doge": {
+        "diffSubTree": [
+          {
+            "key": "doge",
             "state": "diffSubTree",
-            "diffSubTree": {
-              "wow": {
-                "state": "changed",
-                "val1": "",
+            "diffSubTree": [
+              {
+                "key": "wow",
+                "state": "deleted",
+                "val1": ""
+              },
+              {
+                "key": "wow",
+                "state": "added",
                 "val2": "so much"
               }
-            }
+            ]
           },
-          "key": {
+          {
+            "key": "key",
             "state": "unchanged",
             "val": "value"
           },
-          "ops": {
+          {
+            "key": "ops",
             "state": "added",
             "val": "vops"
           }
-        }
+        ]
       }
-    }
+    ]
   },
-  "group1": {
+  {
+    "key": "group1",
     "state": "diffSubTree",
-    "diffSubTree": {
-      "baz": {
-        "state": "changed",
-        "val1": "bas",
+    "diffSubTree": [
+      {
+        "key": "baz",
+        "state": "deleted",
+        "val1": "bas"
+      },
+      {
+        "key": "baz",
+        "state": "added",
         "val2": "bars"
       },
-      "foo": {
+      {
+        "key": "foo",
         "state": "unchanged",
         "val": "bar"
       },
-      "nest": {
-        "state": "changed",
+      {
+        "key": "nest",
+        "state": "deleted",
         "val1": {
           "key": "value"
-        },
+        }
+      },
+      {
+        "key": "nest",
+        "state": "added",
         "val2": "str"
       }
-    }
+    ]
   },
-  "group2": {
+  {
+    "key": "group2",
     "state": "deleted",
     "val": {
       "abc": 12345,
@@ -197,7 +211,8 @@ const dif = {
       }
     }
   },
-  "group3": {
+  {
+    "key": "group3",
     "state": "added",
     "val": {
       "deep": {
@@ -208,7 +223,7 @@ const dif = {
       "fee": 100500
     }
   }
-};
+];
 
 console.log(formatStylish(dif));
 */
