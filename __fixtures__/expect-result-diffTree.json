@@ -1,81 +1,114 @@
-{
-  "common": {
+[
+  {
+    "key": "common",
     "state": "diffSubTree",
-    "diffSubTree": {
-      "follow": {
+    "diffSubTree": [
+      {
+        "key": "follow",
         "state": "added",
         "val": false
       },
-      "setting1": {
+      {
+        "key": "setting1",
         "state": "unchanged",
         "val": "Value 1"
       },
-      "setting2": {
+      {
+        "key": "setting2",
         "state": "deleted",
         "val": 200
       },
-      "setting3": {
-        "state": "changed",
-        "val1": true,
-        "val2": null
+      {
+        "key": "setting3",
+        "state": "deleted",
+        "val": true
       },
-      "setting4": {
+      {
+        "key": "setting3",
+        "state": "added",
+        "val": null
+      },
+      {
+        "key": "setting4",
         "state": "added",
         "val": "blah blah"
       },
-      "setting5": {
+      {
+        "key": "setting5",
         "state": "added",
         "val": {
           "key5": "value5"
         }
       },
-      "setting6": {
+      {
+        "key": "setting6",
         "state": "diffSubTree",
-        "diffSubTree": {
-          "doge": {
+        "diffSubTree": [
+          {
+            "key": "doge",
             "state": "diffSubTree",
-            "diffSubTree": {
-              "wow": {
-                "state": "changed",
-                "val1": "",
-                "val2": "so much"
+            "diffSubTree": [
+              {
+                "key": "wow",
+                "state": "deleted",
+                "val": ""
+              },
+              {
+                "key": "wow",
+                "state": "added",
+                "val": "so much"
               }
-            }
+            ]
           },
-          "key": {
+          {
+            "key": "key",
             "state": "unchanged",
             "val": "value"
           },
-          "ops": {
+          {
+            "key": "ops",
             "state": "added",
             "val": "vops"
           }
-        }
+        ]
       }
-    }
+    ]
   },
-  "group1": {
+  {
+    "key": "group1",
     "state": "diffSubTree",
-    "diffSubTree": {
-      "baz": {
-        "state": "changed",
-        "val1": "bas",
-        "val2": "bars"
+    "diffSubTree": [
+      {
+        "key": "baz",
+        "state": "deleted",
+        "val": "bas"
       },
-      "foo": {
+      {
+        "key": "baz",
+        "state": "added",
+        "val": "bars"
+      },
+      {
+        "key": "foo",
         "state": "unchanged",
         "val": "bar"
       },
-      "nest": {
-        "state": "changed",
-        "val1": {
+      {
+        "key": "nest",
+        "state": "deleted",
+        "val": {
           "key": "value"
-        },
-        "val2": "str"
+        }
+      },
+      {
+        "key": "nest",
+        "state": "added",
+        "val": "str"
       }
-    }
+    ]
   },
-  "group2": {
+  {
+    "key": "group2",
     "state": "deleted",
     "val": {
       "abc": 12345,
@@ -84,7 +117,8 @@
       }
     }
   },
-  "group3": {
+  {
+    "key": "group3",
     "state": "added",
     "val": {
       "deep": {
@@ -95,4 +129,4 @@
       "fee": 100500
     }
   }
-}
+]
