@@ -2,7 +2,7 @@
   {
     "key": "common",
     "state": "diffSubTree",
-    "diffSubTree": [
+    "val": [
       {
         "key": "follow",
         "state": "added",
@@ -43,11 +43,11 @@
       {
         "key": "setting6",
         "state": "diffSubTree",
-        "diffSubTree": [
+        "val": [
           {
             "key": "doge",
             "state": "diffSubTree",
-            "diffSubTree": [
+            "val": [
               {
                 "key": "wow",
                 "state": "deleted",
@@ -77,7 +77,7 @@
   {
     "key": "group1",
     "state": "diffSubTree",
-    "diffSubTree": [
+    "val": [
       {
         "key": "baz",
         "state": "deleted",
