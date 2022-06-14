@@ -46,7 +46,8 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
       if (node.state === 'diffSubTree') {
         const marker = defineMarker('unchanged', replacer);
         const margin = `${indent}${marker}`;
-        const line = createLine(node.key, iter(node.diffSubTree, depth + 1), margin);
+        // const line = createLine(node.key, iter(node.diffSubTree, depth + 1), margin);
+        const line = createLine(node.key, iter(node.val, depth + 1), margin);
         return line;
       }
 
