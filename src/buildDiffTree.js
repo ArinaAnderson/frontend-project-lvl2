@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const isObject = (val) => _.isObject(val) && !_.isArray(val);
 
-const buildDiffTreeNode = (key, val, state) => {
+const buildTreeNode = (key, val, state) => {
   const diffTreeNode = {};
 
   diffTreeNode.key = key;
@@ -12,39 +12,33 @@ const buildDiffTreeNode = (key, val, state) => {
   return diffTreeNode;
 };
 
+/*
+const getTreeNodeState = (obj1, obj2) => {
+};
+*/
+
 const buildDiffTree = (obj1, obj2) => {
   const keys1 = _.keys(obj1);
   const keys2 = _.keys(obj2);
   const keys = _.sortBy(_.union(keys1, keys2));
 
   const diffTree = keys.map((key) => {
-    const elem = [];
-
     if (!_.has(obj1, key)) {
-      const diffTreeNode = buildDiffTreeNode(key, obj2[key], 'added');
-      elem.push(diffTreeNode);
-    } else if (!_.has(obj2, key)) {
-      const diffTreeNode = buildDiffTreeNode(key, obj1[key], 'deleted');
-      elem.push(diffTreeNode);
-    } else if (isObject(obj1[key]) && isObject(obj2[key])) {
-      const diffTreeNode = buildDiffTreeNode(
-        key,
-        buildDiffTree(obj1[key], obj2[key]),
-        'diffSubTree',
-      );
-      elem.push(diffTreeNode);
-    } else if (obj1[key] !== obj2[key]) {
-      const diffTreeNode1 = buildDiffTreeNode(key, obj1[key], 'deleted');
-      elem.push(diffTreeNode1);
-
-      const diffTreeNode2 = buildDiffTreeNode(key, obj2[key], 'added');
-      elem.push(diffTreeNode2);
-    } else {
-      const diffTreeNode = buildDiffTreeNode(key, obj1[key], 'unchanged');
-      elem.push(diffTreeNode);
+      return buildTreeNode(key, obj2[key], 'added');
     }
-
-    return elem;
+    if (!_.has(obj2, key)) {
+      return buildTreeNode(key, obj1[key], 'deleted');
+    }
+    if (isObject(obj1[key]) && isObject(obj2[key])) {
+      return buildTreeNode(key, buildDiffTree(obj1[key], obj2[key]), 'diffSubTree');
+    }
+    if (obj1[key] !== obj2[key]) {
+      return [
+        buildTreeNode(key, obj1[key], 'deleted'),
+        buildTreeNode(key, obj2[key], 'added'),
+      ];
+    }
+    return buildTreeNode(key, obj1[key], 'unchanged');
   });
 
   return diffTree.flat();
