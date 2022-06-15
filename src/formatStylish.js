@@ -62,6 +62,7 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
 };
 
 export default formatStylish;
+
 /*
 const dif = [
   {
