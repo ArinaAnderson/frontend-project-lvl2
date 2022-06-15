@@ -12,11 +12,6 @@ const buildTreeNode = (key, val, state) => {
   return diffTreeNode;
 };
 
-/*
-const getTreeNodeState = (obj1, obj2) => {
-};
-*/
-
 const processObjectsKey = (obj1, obj2, key, fn) => {
   if (!_.has(obj1, key)) {
     return buildTreeNode(key, obj2[key], 'added');
@@ -42,25 +37,7 @@ const buildDiffTree = (obj1, obj2) => {
   const keys = _.sortBy(_.union(keys1, keys2));
 
   const diffTree = keys.map((key) => processObjectsKey(obj1, obj2, key, buildDiffTree));
-  /*
-    if (!_.has(obj1, key)) {
-      return buildTreeNode(key, obj2[key], 'added');
-    }
-    if (!_.has(obj2, key)) {
-      return buildTreeNode(key, obj1[key], 'deleted');
-    }
-    if (isObject(obj1[key]) && isObject(obj2[key])) {
-      return buildTreeNode(key, buildDiffTree(obj1[key], obj2[key]), 'diffSubTree');
-    }
-    if (obj1[key] !== obj2[key]) {
-      return [
-        buildTreeNode(key, obj1[key], 'deleted'),
-        buildTreeNode(key, obj2[key], 'added'),
-      ];
-    }
-    return buildTreeNode(key, obj1[key], 'unchanged');
-  });
-  */
+
   return diffTree.flat();
 };
 
