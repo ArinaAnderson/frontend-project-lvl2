@@ -25,6 +25,7 @@ const defineMarker = (state, replacer) => {
     case 'deleted':
       return minusMarker;
     case 'unchanged':
+    case 'diffSubTree':  
       return generalMarker;
     default:
       throw new Error(`Unknown state: '${state}'!`);
@@ -43,46 +44,15 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
     const indent = defineIndent(depth * indentBase, replacer);
 
     const lines = diffs.map((node) => {
+      const lineKey = node.key;
+      const lineMarker = defineMarker(node.state, replacer);
+      const lineMargin = `${indent}${lineMarker}`;
+      
       if (node.state === 'diffSubTree') {
-        const marker = defineMarker('unchanged', replacer);
-        const margin = `${indent}${marker}`;
-        // const line = createLine(node.key, iter(node.diffSubTree, depth + 1), margin);
-        const line = createLine(node.key, iter(node.val, depth + 1), margin);
-        return line;
+        return createLine(lineKey, iter(node.val, depth + 1), lineMargin);
       }
 
-      if (node.state === 'added') {
-        const marker = defineMarker(node.state, replacer);
-        const margin = `${indent}${marker}`;
-        const line = createLine(
-          node.key,
-          stringify(node.val, indentBase, depth + 1, replacer),
-          margin,
-        );
-        return line;
-      }
-
-      if (node.state === 'deleted') {
-        const marker = defineMarker(node.state, replacer);
-        const margin = `${indent}${marker}`;
-        const line = createLine(
-          node.key,
-          stringify(node.val, indentBase, depth + 1, replacer),
-          margin,
-        );
-        return line;
-      }
-
-      // if (node.state === 'unchanged') {
-      const marker = defineMarker(node.state, replacer);
-      const margin = `${indent}${marker}`;
-      const line = createLine(
-        node.key,
-        stringify(node.val, indentBase, depth + 1, replacer),
-        margin,
-      );
-      return line;
-      // }
+      return createLine(lineKey, stringify(node.val, indentBase, depth + 1, replacer), lineMargin);
     });
 
     return `{\n${lines.join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
