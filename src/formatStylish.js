@@ -25,7 +25,7 @@ const defineMarker = (state, replacer) => {
     case 'deleted':
       return minusMarker;
     case 'unchanged':
-    case 'diffSubTree':  
+    case 'diffSubTree':
       return generalMarker;
     default:
       throw new Error(`Unknown state: '${state}'!`);
@@ -47,7 +47,7 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
       const lineKey = node.key;
       const lineMarker = defineMarker(node.state, replacer);
       const lineMargin = `${indent}${lineMarker}`;
-      
+
       if (node.state === 'diffSubTree') {
         return createLine(lineKey, iter(node.val, depth + 1), lineMargin);
       }
