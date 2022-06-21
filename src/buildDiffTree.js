@@ -44,6 +44,22 @@ const buildDiffTree = (obj1, obj2) => {
 export default buildDiffTree;
 
 /*
+const ob1 = {
+  "host": "hexlet.io",
+  "timeout": 50,
+  "proxy": "123.234.53.22",
+  "follow": false
+};
+const ob2 = {
+  "timeout": 20,
+  "verbose": true,
+  "host": "hexlet.io"
+};
+
+console.log(buildDiffTree(ob1, ob2));
+*/
+
+/*
 const objAA = {
   "common": {
     "setting1": "Value 1",
