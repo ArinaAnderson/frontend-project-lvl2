@@ -1,38 +1,58 @@
 import _ from 'lodash';
 
-const defineMarker = (state, replacer) => {
-  const generalMarker = `${replacer}${replacer}`;
-  const plusMarker = `+${replacer}`;
-  const minusMarker = `-${replacer}`;
+const startLine = (keyPath) => `Property '${keyPath}' was`;
 
-  switch (state) {
-    case 'added':
-      return plusMarker;
-    case 'deleted':
-      return minusMarker;
-    case 'unchanged':
-    case 'diffSubTree':
-      return generalMarker;
-    default:
-      throw new Error(`Unknown state: '${state}'!`);
+const processVal = (val) => {
+  if (_.isObject(val)) {
+    return '[complex value]';
   }
+
+  if (_.isString(val)) {
+    return `'${val}'`;
+  }
+
+  return val;
 };
 
-const createLine = (key, value, margin) => `${margin}${key}: ${value}`;
+const iterDiffs = (diffs, parentKey = '') => {
+  const lines = diffs.map((node, idx) => {
+    const { key, state, val } = node;
+    const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
+    const lineStart = startLine(keyPath);
 
-// const isNodeUpdated = (currentNodeKey, nextNodeKey) => currentNodeKey === nextNodeKey;
+    if (state === 'diffSubTree') {
+      return iterDiffs(val, keyPath);
+    }
 
-const isNodeValueComplex = () => {};
+    // updated nodes:
+    if (diffs[idx + 1] && key === diffs[idx + 1].key) {
+      return [];
+    }
 
-const plain = (diffsTree) => {
+    if (diffs[idx - 1] && key === diffs[idx - 1].key) {
+      return `${lineStart} updated. From ${processVal(diffs[idx - 1].val)} to ${processVal(val)}`;
+    }
 
+    if (state === 'added') {
+      return `${lineStart} added with value: ${processVal(val)}`;
+    }
+
+    if (state === 'deleted') {
+      return `${lineStart} removed`;
+    }
+
+    return [];
+  });
+  return `${lines.flat().join('\n')}`;
+};
+
+const plain = (diffsTree) => iterDiffs(diffsTree);
+/*
   const iter = (diffs, parentKey = '') => {
-
     const lines = diffs.map((node, idx) => {
       const { key, state, val } = node;
       const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
       if (state === 'diffSubTree') {
-        // return iter(val, `${parentKey}${parentKey ? '.' : ''}${key}`);
         return iter(val, keyPath);
       }
 
@@ -42,13 +62,12 @@ const plain = (diffsTree) => {
       }
 
       if (diffs[idx - 1] && key === diffs[idx - 1].key) {
-        // createLine():
-        // return `Property ${parentKey}.${key} was updated. From ${diffs[idx - 1].val} to ${val}`;
-        return `Property '${keyPath}' was updated. From ${diffs[idx - 1].val} to ${val}`;
+        return `Property '${keyPath}' was updated. From ${processVal(diffs[idx - 1].val)}
+        to ${processVal(val)}`;
       }
 
       if (state === 'added') {
-        return `Property '${keyPath}' was added with value: ${val}`;
+        return `Property '${keyPath}' was added with value: ${processVal(val)}`;
       }
 
       if (state === 'deleted') {
@@ -57,12 +76,10 @@ const plain = (diffsTree) => {
 
       return [];
     });
-    
+
     return `${lines.flat().join('\n')}`;
   };
-
-  return iter(diffsTree);
-};
+*/
 
 export default plain;
 
