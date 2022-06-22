@@ -20,6 +20,7 @@ const iterDiffs = (diffs, parentKey = '') => {
     const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
     const lineStart = startLine(keyPath);
 
+    /*
     const statesToActions = {
       diffSubTree() {
         return iterDiffs(val, keyPath);
@@ -44,8 +45,8 @@ const iterDiffs = (diffs, parentKey = '') => {
     }
 
     return statesToActions[state](val);
+    */
 
-    /*
     if (state === 'diffSubTree') {
       return iterDiffs(val, keyPath);
     }
@@ -67,7 +68,6 @@ const iterDiffs = (diffs, parentKey = '') => {
     }
 
     return [];
-    */
   });
   return `${lines.flat().join('\n')}`;
 };
