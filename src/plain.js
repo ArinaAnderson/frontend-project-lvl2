@@ -20,6 +20,32 @@ const iterDiffs = (diffs, parentKey = '') => {
     const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
     const lineStart = startLine(keyPath);
 
+    const statesToActions = {
+      diffSubTree() {
+        return iterDiffs(val, keyPath);
+      },
+      added() {
+        return `${lineStart} added with value: ${processVal(val)}`;
+      },
+      deleted() {
+        return `${lineStart} removed`;
+      },
+      unchanged() {
+        return [];
+      },
+    };
+
+    if (diffs[idx + 1] && key === diffs[idx + 1].key) {
+      return [];
+    }
+
+    if (diffs[idx - 1] && key === diffs[idx - 1].key) {
+      return `${lineStart} updated. From ${processVal(diffs[idx - 1].val)} to ${processVal(val)}`;
+    }
+
+    return statesToActions[state](val);
+
+    /*
     if (state === 'diffSubTree') {
       return iterDiffs(val, keyPath);
     }
@@ -41,6 +67,7 @@ const iterDiffs = (diffs, parentKey = '') => {
     }
 
     return [];
+    */
   });
   return `${lines.flat().join('\n')}`;
 };
