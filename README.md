@@ -15,6 +15,9 @@
 [gendiff (step5) demonstration](https://asciinema.org/a/wx9yhx5QOdsXYl8PJRBNmCBzm)
 [![asciicast](https://asciinema.org/a/dcqF2BuH1VxrtryT77eF6RvSX.png)](https://asciinema.org/a/wx9yhx5QOdsXYl8PJRBNmCBzm)
 
+[gendiff (step6) demonstration](https://asciinema.org/a/bKZ1LdAvZ9SJEsEUbrqqWZLuA)
+[![asciicast](https://asciinema.org/a/dcqF2BuH1VxrtryT77eF6RvSX.png)](https://asciinema.org/a/bKZ1LdAvZ9SJEsEUbrqqWZLuA)
+
 ### Process
 #### as of Step 5:
-![architecture of lib as of step5](https://i.imgur.com/TWKAYmP.png)                      
+![architecture of lib as of step5](https://i.imgur.com/TWKAYmP.png)
