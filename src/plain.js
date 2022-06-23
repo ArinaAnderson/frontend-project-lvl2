@@ -20,6 +20,7 @@ const iterDiffs = (diffs, parentKey = '') => {
     const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
     const lineStart = startLine(keyPath);
 
+    // to avoid many returns:
     /*
     const statesToActions = {
       diffSubTree() {
