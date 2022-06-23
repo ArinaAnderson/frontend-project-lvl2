@@ -39,7 +39,7 @@ const defineIndent = (indentSize, replacer, markerLength = 2) => {
 
 const createLine = (key, value, margin) => `${margin}${key}: ${value}`;
 
-const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
+const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
     const indent = defineIndent(depth * indentBase, replacer);
 
@@ -61,7 +61,7 @@ const formatStylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   return iter(diffsTree, 1);
 };
 
-export default formatStylish;
+export default stylish;
 
 /*
 const dif = [
@@ -197,5 +197,5 @@ const dif = [
   }
 ];
 
-console.log(formatStylish(dif));
+console.log(stylish(dif));
 */
