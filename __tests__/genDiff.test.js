@@ -25,9 +25,21 @@ test.each([
 });
 
 test.each([
-  { fileName1: 'file1.json', fileName2: 'file2.json', format: 'plain', expected: expectedResultPlain },
-  { fileName1: 'file1.yaml', fileName2: 'file2.yaml', format: 'stylish', expected: expectedResultStylish },
-])('comparing files when formatName is passed', ({ fileName1, fileName2, format, expected }) => {
+  {
+    fileName1: 'file1.json',
+    fileName2: 'file2.json',
+    format: 'plain',
+    expected: expectedResultPlain,
+  },
+  {
+    fileName1: 'file1.yaml',
+    fileName2: 'file2.yaml',
+    format: 'stylish',
+    expected: expectedResultStylish,
+  },
+])('comparing files when formatName is passed', ({
+  fileName1, fileName2, format, expected,
+}) => {
   const file1Path = getFixturePath(fileName1);
   const file2Path = getFixturePath(fileName2);
   expect(genDiff(file1Path, file2Path, format)).toBe(expected);

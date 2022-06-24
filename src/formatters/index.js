@@ -3,15 +3,17 @@ import stylish from './stylish.js';
 import plain from './plain.js';
 
 const formatters = {
-  stylish: function (data) {
+  stylish(data) {
     return stylish(data);
   },
-  plain: function (data) {
+  plain(data) {
     return plain(data);
   },
-  json: function (data) {
+  /*
+  json(data) {
     return json(data);
   },
+  */
 };
 
 const getFormat = (formatName) => {
