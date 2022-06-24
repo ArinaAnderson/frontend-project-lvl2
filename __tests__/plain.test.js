@@ -28,14 +28,3 @@ test('gets plain format of diffTree', () => {
   const actual = plain(diffTreeObj);
   expect(actual).toEqual(expectedResult);
 });
-
-// console.log(expectedResult);//(JSON.stringify(diffTreeObj, null, '  '));
-/*
-test.each([
-  { fileName1: 'file1.json', fileName2: 'file2.json', expected: expectedResult },
-  // { fileName1: 'file1.yaml', fileName2: 'file2.yaml', expected: expectedResult },
-])('comparing files in stylish format', ({ fileName1, fileName2, expected }) => {
-  const diffTreePath = getFixturePath(fileName1);
-  expect(plain(file1Path, file2Path)).toBe(expected);
-});
-*/

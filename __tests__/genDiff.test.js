@@ -10,37 +10,57 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFile = (filePath) => fs.readFileSync(filePath, 'utf-8');
 
 const stylishResultPath = getFixturePath('expect-result-stylish.txt');
-const expectedResultStylish = readFile(stylishResultPath);
+const expectedStylish = readFile(stylishResultPath);
 
 const plainResultPath = getFixturePath('expect-result-plain.txt');
-const expectedResultPlain = readFile(plainResultPath);
+const expectedPlain = readFile(plainResultPath);
+
+const json1Path = getFixturePath('file1.json');
+const json2Path = getFixturePath('file2.json');
+const yaml1Path = getFixturePath('file1.yaml');
+const yaml2Path = getFixturePath('file2.yaml');
 
 test.each([
-  { fileName1: 'file1.json', fileName2: 'file2.json', expected: expectedResultStylish },
-  { fileName1: 'file1.yaml', fileName2: 'file2.yaml', expected: expectedResultStylish },
-])('comparing files in stylish format by default', ({ fileName1, fileName2, expected }) => {
-  const file1Path = getFixturePath(fileName1);
-  const file2Path = getFixturePath(fileName2);
-  expect(genDiff(file1Path, file2Path)).toBe(expected);
+  { path1: json1Path, path2: json2Path, expected: expectedStylish },
+  { path1: yaml1Path, path2: yaml2Path, expected: expectedStylish },
+])('comparing files in stylish format by default', ({ path1, path2, expected }) => {
+  expect(genDiff(path1, path2)).toEqual(expected);
 });
 
 test.each([
   {
-    fileName1: 'file1.json',
-    fileName2: 'file2.json',
-    format: 'plain',
-    expected: expectedResultPlain,
+    path1: json1Path,
+    path2: yaml2Path,
+    format: 'stylish',
+    expected: expectedStylish,
   },
   {
-    fileName1: 'file1.yaml',
-    fileName2: 'file2.yaml',
-    format: 'stylish',
-    expected: expectedResultStylish,
+    path1: yaml1Path,
+    path2: json2Path,
+    format: 'plain',
+    expected: expectedPlain,
   },
-])('comparing files when formatName is passed', ({
-  fileName1, fileName2, format, expected,
+])('comparing 2 files with different extension', ({
+  path1, path2, format, expected,
 }) => {
-  const file1Path = getFixturePath(fileName1);
-  const file2Path = getFixturePath(fileName2);
-  expect(genDiff(file1Path, file2Path, format)).toBe(expected);
+  expect(genDiff(path1, path2, format)).toEqual(expected);
+});
+
+test.each([
+  {
+    path1: json1Path,
+    path2: json2Path,
+    format: 'plain',
+    expected: expectedPlain,
+  },
+  {
+    path1: yaml1Path,
+    path2: yaml2Path,
+    format: 'stylish',
+    expected: expectedStylish,
+  },
+])('comparing files when parameter formatName is passed', ({
+  path1, path2, format, expected,
+}) => {
+  expect(genDiff(path1, path2, format)).toEqual(expected);
 });
