@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import stylish from './stylish.js';
 import plain from './plain.js';
+import json from './json.js';
 
 const formatters = {
   stylish(data) {
@@ -9,11 +10,9 @@ const formatters = {
   plain(data) {
     return plain(data);
   },
-  /*
   json(data) {
     return json(data);
   },
-  */
 };
 
 const getFormat = (formatName) => {
