@@ -15,6 +15,9 @@ const expectedStylish = readFile(stylishResultPath);
 const plainResultPath = getFixturePath('expect-result-plain.txt');
 const expectedPlain = readFile(plainResultPath);
 
+const jsonResultPath = getFixturePath('expect-result-json.json');
+const expectedJSON = readFile(jsonResultPath);
+
 const json1Path = getFixturePath('file1.json');
 const json2Path = getFixturePath('file2.json');
 const yaml1Path = getFixturePath('file1.yaml');
@@ -30,25 +33,6 @@ test.each([
 test.each([
   {
     path1: json1Path,
-    path2: yaml2Path,
-    format: 'stylish',
-    expected: expectedStylish,
-  },
-  {
-    path1: yaml1Path,
-    path2: json2Path,
-    format: 'plain',
-    expected: expectedPlain,
-  },
-])('comparing 2 files with different extension', ({
-  path1, path2, format, expected,
-}) => {
-  expect(genDiff(path1, path2, format)).toEqual(expected);
-});
-
-test.each([
-  {
-    path1: json1Path,
     path2: json2Path,
     format: 'plain',
     expected: expectedPlain,
@@ -58,6 +42,12 @@ test.each([
     path2: yaml2Path,
     format: 'stylish',
     expected: expectedStylish,
+  },
+  {
+    path1: yaml1Path,
+    path2: yaml2Path,
+    format: 'json',
+    expected: expectedJSON,
   },
 ])('comparing files when parameter formatName is passed', ({
   path1, path2, format, expected,
