@@ -3,11 +3,16 @@ import _ from 'lodash';
 const isObject = (val) => _.isObject(val) && !_.isArray(val);
 
 const buildTreeNode = (key, val, state) => {
-  const diffTreeNode = {};
-
+  const diffTreeNode = {
+    key,
+    state,
+    val,
+  };
+  /*
   diffTreeNode.key = key;
   diffTreeNode.state = state;
   diffTreeNode.val = val;
+  */
 
   return diffTreeNode;
 };
