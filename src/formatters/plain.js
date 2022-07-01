@@ -14,33 +14,44 @@ const processVal = (val) => {
   return val;
 };
 
+const isNodeUpdated = (node, nextNode, prevNode) => (nextNode && node.key === nextNode.key)
+  || (prevNode && node.key === prevNode.key);
+
+const isNodeOld = (node, nextNode) => nextNode && node.key === nextNode.key;
+
+// const mapCallback = (node, idx) => {};
+
 const iterDiffs = (diffs, parentKey = '') => {
   const lines = diffs.map((node, idx) => {
     const { key, state, val } = node;
     const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
     const lineStart = startLine(keyPath);
 
-    if (state === 'diffSubTree') {
-      return iterDiffs(val, keyPath);
+    const prevNode = diffs[idx - 1];
+    const nextNode = diffs[idx + 1];
+
+    if (isNodeUpdated(node, nextNode, prevNode)) {
+      return isNodeOld(node, nextNode)
+        ? []
+        : `${lineStart} updated. From ${processVal(prevNode.val)} to ${processVal(val)}`;
     }
 
-    if (diffs[idx + 1] && key === diffs[idx + 1].key) {
-      return [];
-    }
+    switch (state) {
+      case 'diffSubTree':
+        return iterDiffs(val, keyPath);
 
-    if (diffs[idx - 1] && key === diffs[idx - 1].key) {
-      return `${lineStart} updated. From ${processVal(diffs[idx - 1].val)} to ${processVal(val)}`;
-    }
+      case 'added':
+        return `${lineStart} added with value: ${processVal(val)}`;
 
-    if (state === 'added') {
-      return `${lineStart} added with value: ${processVal(val)}`;
-    }
+      case 'deleted':
+        return `${lineStart} removed`;
 
-    if (state === 'deleted') {
-      return `${lineStart} removed`;
-    }
+      case 'unchanged':
+        return [];
 
-    return [];
+      default:
+        throw new Error(`Unknown node state: '${state}'!`);
+    }
   });
   return `${lines.flat().join('\n')}`;
 };
