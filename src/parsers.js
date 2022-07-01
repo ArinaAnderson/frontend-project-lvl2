@@ -1,25 +1,25 @@
 import _ from 'lodash';
-import path from 'path';
+// import path from 'path';
 import yaml from 'js-yaml';
 
 const parsers = {
-  json(fileContent) {
-    return JSON.parse(fileContent);
+  json(data) {
+    return JSON.parse(data);
   },
-  yaml(fileContent) {
-    return yaml.load(fileContent, 'utf8');
+  yaml(data) {
+    return yaml.load(data, 'utf8');
   },
-  yml(fileContent) {
-    return yaml.load(fileContent, 'utf8');
+  yml(data) {
+    return yaml.load(data, 'utf8');
   },
 };
 
-const defineParser = (filePath) => {
-  const extension = path.extname(filePath).substring(1);
-  if (!_.has(parsers, extension)) {
-    throw new Error(`Unknown extansion: '${extension}'!`);
+const defineParser = (dataFormat) => {
+  // const dataFormat = path.extname(dataName).substring(1);
+  if (!_.has(parsers, dataFormat)) {
+    throw new Error(`Unknown format: '${dataFormat}'!`);
   }
-  return parsers[extension];
+  return parsers[dataFormat];
 };
 
 export default defineParser;
