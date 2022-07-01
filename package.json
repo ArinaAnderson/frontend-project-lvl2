@@ -4,7 +4,7 @@
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
-  "description": "[![Actions Status](https://github.com/ArinaAnderson/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/ArinaAnderson/frontend-project-lvl2/actions)",
+  "description": "A small javascript library to calculate and show difference between files in 3 different formats",
   "type": "module",
   "main": "index.js",
   "scripts": {
