@@ -34,23 +34,19 @@ test.each([
   {
     path1: json1Path,
     path2: json2Path,
-    format: 'plain',
-    expected: expectedPlain,
   },
   {
     path1: yaml1Path,
     path2: yaml2Path,
-    format: 'stylish',
-    expected: expectedStylish,
   },
   {
     path1: yaml1Path,
     path2: yaml2Path,
-    format: 'json',
-    expected: expectedJSON,
   },
 ])('comparing files when parameter formatName is passed', ({
-  path1, path2, format, expected,
+  path1, path2,
 }) => {
-  expect(genDiff(path1, path2, format)).toEqual(expected);
+  expect(genDiff(path1, path2, 'plain')).toEqual(expectedPlain);
+  expect(genDiff(path1, path2, 'stylish')).toEqual(expectedStylish);
+  expect(genDiff(path1, path2, 'json')).toEqual(expectedJSON);
 });
