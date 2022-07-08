@@ -31,28 +31,32 @@ const defineMarker = (state, replacer) => {
       throw new Error(`Unknown state: '${state}'!`);
   }
 };
-
-const defineIndent = (indentSize, replacer, markerLength = 2) => {
-  const indent = `${replacer.repeat(indentSize - markerLength)}`;
-  return indent;
+// lineIndent = lineMargin + lineMarker
+const defineMargin = (indentSize, replacer, markerLength = 2) => {
+  const margin = `${replacer.repeat(indentSize - markerLength)}`;
+  return margin;
 };
 
-const createLine = (key, value, margin) => `${margin}${key}: ${value}`;
+const defineIndent = (state, indentSize, replacer) => {
+  const lineMarker = defineMarker(state, replacer);
+  const lineMargin = defineMargin(indentSize, replacer, lineMarker.length);
+
+  return `${lineMargin}${lineMarker}`;
+};
+
+const createLine = (key, value, indent) => `${indent}${key}: ${value}`;
 
 const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
-    const indent = defineIndent(depth * indentBase, replacer);
-
     const lines = diffs.map((node) => {
       const lineKey = node.key;
-      const lineMarker = defineMarker(node.state, replacer);
-      const lineMargin = `${indent}${lineMarker}`;
+      const lineIndent = defineIndent(node.state, depth * indentBase, replacer);
 
       if (node.state === 'diffSubTree') {
-        return createLine(lineKey, iter(node.val, depth + 1), lineMargin);
+        return createLine(lineKey, iter(node.val, depth + 1), lineIndent);
       }
 
-      return createLine(lineKey, stringify(node.val, indentBase, depth + 1, replacer), lineMargin);
+      return createLine(lineKey, stringify(node.val, indentBase, depth + 1, replacer), lineIndent);
     });
 
     return `{\n${lines.join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
