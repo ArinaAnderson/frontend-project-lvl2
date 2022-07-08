@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import defineParser from './parsers.js';
+import parse from './parsers.js';
 import buildDiffTree from './buildDiffTree.js';
 import getFormatter from './formatters/index.js';
 
@@ -17,12 +17,8 @@ const genDiff = (file1, file2, formatName = 'stylish') => {
   const file1Content = readFileContent(absoluteFile1Path);
   const file2Content = readFileContent(absoluteFile2Path);
 
-  const obj1 = defineParser(file1Format)(file1Content);
-  const obj2 = defineParser(file2Format)(file2Content);
-  /*
-  const obj1 = defineParser(absoluteFile1Path)(file1Content);
-  const obj2 = defineParser(absoluteFile2Path)(file2Content);
-  */
+  const obj1 = parse(file1Format, file1Content);
+  const obj2 = parse(file2Format, file2Content);
 
   const diffsObj = buildDiffTree(obj1, obj2);
 
