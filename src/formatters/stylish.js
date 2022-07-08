@@ -50,24 +50,43 @@ const defineIndent = (margin, marker) => `${margin}${marker}`;
 
 const createLine = (key, value, indent) => `${indent}${key}: ${value}`;
 
+/*
+const treatUpdatedNode = (node, lineVal, margin, replacer) => {
+  const { val } = node;
+  const lines = val.map((child) => {
+    const marker = defineMarker(child.state, replacer);
+    return createLine(key, lineVal, defineIndent(margin, marker));
+  });
+  return lines;
+};
+*/
+
 const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
     const lines = diffs.map((node) => {
       const { key, val, state } = node;
-      const lineMargin = defineMargin(depth * indentBase, replacer);
-      
+      const margin = defineMargin(depth * indentBase, replacer);
+
       if (state === 'updated') {
-        const deletedValIndent = defineIndent(lineMargin, defineMarker('deleted', replacer));
-        const addedValIndent = defineIndent(lineMargin, defineMarker('added', replacer));
+        const [oldVal, newVal] = val;
+        const oldValMarker = defineMarker(oldVal.state, replacer);
+        const newValMarker = defineMarker(newVal.state, replacer);
         return [
-          createLine(key, stringify(val.deleted, indentBase, depth + 1, replacer), deletedValIndent),
-          createLine(key, stringify(val.added, indentBase, depth + 1, replacer),addedValIndent),
+          createLine(
+            key,
+            stringify(oldVal.val, indentBase, depth + 1, replacer),
+            defineIndent(margin, oldValMarker),
+          ),
+          createLine(
+            key,
+            stringify(newVal.val, indentBase, depth + 1, replacer),
+            defineIndent(margin, newValMarker),
+          ),
         ];
       }
 
-      const lineMarker = defineMarker(state, replacer);
-      const lineIndent = defineIndent(lineMargin, lineMarker);
-
+      const marker = defineMarker(state, replacer);
+      const lineIndent = defineIndent(margin, marker);
 
       if (state === 'diffSubTree') {
         return createLine(key, iter(val, depth + 1), lineIndent);
@@ -76,15 +95,15 @@ const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
       return createLine(key, stringify(val, indentBase, depth + 1, replacer), lineIndent);
     });
 
+    // return `\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}`;
     return `{\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
-    // return `{\n${lines.join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
   };
 
   return iter(diffsTree, 1);
 };
 
 export default stylish;
-
+/*
 const diffs = [
   {
     "key": "common",
@@ -108,10 +127,18 @@ const diffs = [
       {
         "key": "setting3",
         "state": "updated",
-        "val": {
-          "deleted": true,
-          "added": null
-        }
+        "val": [
+          {
+            "key": "setting3",
+            "state": "deleted",
+            "val": true
+          },
+          {
+            "key": "setting3",
+            "state": "added",
+            "val": null
+          }
+        ]
       },
       {
         "key": "setting4",
@@ -136,10 +163,18 @@ const diffs = [
               {
                 "key": "wow",
                 "state": "updated",
-                "val": {
-                  "deleted": "",
-                  "added": "so much"
-                }
+                "val": [
+                  {
+                    "key": "wow",
+                    "state": "deleted",
+                    "val": ""
+                  },
+                  {
+                    "key": "wow",
+                    "state": "added",
+                    "val": "so much"
+                  }
+                ]
               }
             ]
           },
@@ -164,10 +199,18 @@ const diffs = [
       {
         "key": "baz",
         "state": "updated",
-        "val": {
-          "deleted": "bas",
-          "added": "bars"
-        }
+        "val": [
+          {
+            "key": "baz",
+            "state": "deleted",
+            "val": "bas"
+          },
+          {
+            "key": "baz",
+            "state": "added",
+            "val": "bars"
+          }
+        ]
       },
       {
         "key": "foo",
@@ -177,12 +220,20 @@ const diffs = [
       {
         "key": "nest",
         "state": "updated",
-        "val": {
-          "deleted": {
-            "key": "value"
+        "val": [
+          {
+            "key": "nest",
+            "state": "deleted",
+            "val": {
+              "key": "value"
+            }
           },
-          "added": "str"
-        }
+          {
+            "key": "nest",
+            "state": "added",
+            "val": "str"
+          }
+        ]
       }
     ]
   },
@@ -211,3 +262,4 @@ const diffs = [
 ];
 
 console.log(stylish(diffs));
+*/

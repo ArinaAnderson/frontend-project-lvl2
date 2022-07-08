@@ -1,13 +1,12 @@
 import _ from 'lodash';
 
 const buildTreeNode = (key, val, state) => {
-  const keyNameForValues = state === 'updated' ? 'vals' : 'val';
+  // const keyNameForValues = state === 'updated' ? 'vals' : 'val';
   const diffTreeNode = {
     key,
     state,
     val,
     // [keyNameForValues]: val,
-    // val,
   };
 
   return diffTreeNode;
@@ -24,16 +23,10 @@ const processObjectsKey = (obj1, obj2, key, buildDiffTreeFunc) => {
     return buildTreeNode(key, buildDiffTreeFunc(obj1[key], obj2[key]), 'diffSubTree');
   }
   if (obj1[key] !== obj2[key]) {
-    return buildTreeNode(key, {
-      'deleted': obj1[key],
-      'added': obj2[key],
-    }, 'updated');
-    /*
-    return [
+    return buildTreeNode(key, [
       buildTreeNode(key, obj1[key], 'deleted'),
       buildTreeNode(key, obj2[key], 'added'),
-    ];
-    */
+    ], 'updated');
   }
   return buildTreeNode(key, obj1[key], 'unchanged');
 };
@@ -50,6 +43,7 @@ const buildDiffTree = (obj1, obj2) => {
 
 export default buildDiffTree;
 
+/*
 const objAA = {
   "common": {
     "setting1": "Value 1",
@@ -110,3 +104,4 @@ const objBB = {
 };
 
 console.log(JSON.stringify(buildDiffTree(objAA, objBB), null, '  '));
+*/

@@ -21,10 +21,18 @@
       {
         "key": "setting3",
         "state": "updated",
-        "val": {
-          "deleted": true,
-          "added": null
-        }
+        "val": [
+          {
+            "key": "setting3",
+            "state": "deleted",
+            "val": true
+          },
+          {
+            "key": "setting3",
+            "state": "added",
+            "val": null
+          }
+        ]
       },
       {
         "key": "setting4",
@@ -49,10 +57,18 @@
               {
                 "key": "wow",
                 "state": "updated",
-                "val": {
-                  "deleted": "",
-                  "added": "so much"
-                }
+                "val": [
+                  {
+                    "key": "wow",
+                    "state": "deleted",
+                    "val": ""
+                  },
+                  {
+                    "key": "wow",
+                    "state": "added",
+                    "val": "so much"
+                  }
+                ]
               }
             ]
           },
@@ -77,10 +93,18 @@
       {
         "key": "baz",
         "state": "updated",
-        "val": {
-          "deleted": "bas",
-          "added": "bars"
-        }
+        "val": [
+          {
+            "key": "baz",
+            "state": "deleted",
+            "val": "bas"
+          },
+          {
+            "key": "baz",
+            "state": "added",
+            "val": "bars"
+          }
+        ]
       },
       {
         "key": "foo",
@@ -90,12 +114,20 @@
       {
         "key": "nest",
         "state": "updated",
-        "val": {
-          "deleted": {
-            "key": "value"
+        "val": [
+          {
+            "key": "nest",
+            "state": "deleted",
+            "val": {
+              "key": "value"
+            }
           },
-          "added": "str"
-        }
+          {
+            "key": "nest",
+            "state": "added",
+            "val": "str"
+          }
+        ]
       }
     ]
   },
