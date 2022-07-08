@@ -14,31 +14,18 @@ const processVal = (val) => {
   return val;
 };
 
-const isNodeUpdated = (node, nextNode, prevNode) => (nextNode && node.key === nextNode.key)
-  || (prevNode && node.key === prevNode.key);
-
-const isNodeOld = (node, nextNode) => nextNode && node.key === nextNode.key;
-
-// const mapCallback = (node, idx) => {};
-
 const iterDiffs = (diffs, parentKey = '') => {
-  const lines = diffs.map((node, idx) => {
+  const lines = diffs.map((node) => {
     const { key, state, val } = node;
     const keyPath = `${parentKey}${parentKey ? '.' : ''}${key}`;
     const lineStart = startLine(keyPath);
 
-    const prevNode = diffs[idx - 1];
-    const nextNode = diffs[idx + 1];
-
-    if (isNodeUpdated(node, nextNode, prevNode)) {
-      return isNodeOld(node, nextNode)
-        ? []
-        : `${lineStart} updated. From ${processVal(prevNode.val)} to ${processVal(val)}`;
-    }
-
     switch (state) {
       case 'diffSubTree':
         return iterDiffs(val, keyPath);
+
+      case 'updated':
+        return `${lineStart} updated. From ${processVal(val[0].val)} to ${processVal(val[1].val)}`;
 
       case 'added':
         return `${lineStart} added with value: ${processVal(val)}`;

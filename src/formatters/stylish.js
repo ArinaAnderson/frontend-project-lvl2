@@ -60,6 +60,30 @@ const treatUpdatedNode = (node, lineVal, margin, replacer) => {
   return lines;
 };
 */
+/*
+const treatUpdatedNode = (node, marker, margin) => {
+  const { key, val, state } = node;
+  // const margin = defineMargin(depth * indentBase, replacer);
+
+  if (state === 'updated') {
+    const [oldVal, newVal] = val;
+    const oldValMarker = defineMarker(oldVal.state, replacer);
+    const newValMarker = defineMarker(newVal.state, replacer);
+    return [
+      createLine(
+        key,
+        stringify(oldVal.val, indentBase, depth + 1, replacer),
+        defineIndent(margin, oldValMarker),
+      ),
+      createLine(
+        key,
+        stringify(newVal.val, indentBase, depth + 1, replacer),
+        defineIndent(margin, newValMarker),
+      ),
+    ];
+  }
+}
+*/
 
 const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
