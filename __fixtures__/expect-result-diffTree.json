@@ -20,13 +20,11 @@
       },
       {
         "key": "setting3",
-        "state": "deleted",
-        "val": true
-      },
-      {
-        "key": "setting3",
-        "state": "added",
-        "val": null
+        "state": "updated",
+        "val": {
+          "deleted": true,
+          "added": null
+        }
       },
       {
         "key": "setting4",
@@ -50,13 +48,11 @@
             "val": [
               {
                 "key": "wow",
-                "state": "deleted",
-                "val": ""
-              },
-              {
-                "key": "wow",
-                "state": "added",
-                "val": "so much"
+                "state": "updated",
+                "val": {
+                  "deleted": "",
+                  "added": "so much"
+                }
               }
             ]
           },
@@ -80,13 +76,11 @@
     "val": [
       {
         "key": "baz",
-        "state": "deleted",
-        "val": "bas"
-      },
-      {
-        "key": "baz",
-        "state": "added",
-        "val": "bars"
+        "state": "updated",
+        "val": {
+          "deleted": "bas",
+          "added": "bars"
+        }
       },
       {
         "key": "foo",
@@ -95,15 +89,13 @@
       },
       {
         "key": "nest",
-        "state": "deleted",
+        "state": "updated",
         "val": {
-          "key": "value"
+          "deleted": {
+            "key": "value"
+          },
+          "added": "str"
         }
-      },
-      {
-        "key": "nest",
-        "state": "added",
-        "val": "str"
       }
     ]
   },
