@@ -15,7 +15,7 @@ const stringify = (value, indentBase = 4, depth = 1, replacer = ' ') => {
 };
 
 const defineMarker = (state, replacer) => {
-  const generalMarker = `${replacer}${replacer}`;
+  const blankMarker = `${replacer}${replacer}`;
   const plusMarker = `+${replacer}`;
   const minusMarker = `-${replacer}`;
 
@@ -26,100 +26,50 @@ const defineMarker = (state, replacer) => {
       return minusMarker;
     case 'unchanged':
     case 'diffSubTree':
-      return generalMarker;
+      return blankMarker;
+    case 'updated':
+      return { minusMarker, plusMarker };
     default:
       throw new Error(`Unknown state: '${state}'!`);
   }
 };
-// lineIndent = lineMargin + lineMarker
+
 const defineMargin = (indentSize, replacer, markerLength = 2) => {
   const margin = `${replacer.repeat(indentSize - markerLength)}`;
   return margin;
 };
 
-/*
-const defineIndent = (state, indentSize, replacer) => {
-  const lineMarker = defineMarker(state, replacer);
-  const lineMargin = defineMargin(indentSize, replacer, lineMarker.length);
-
-  return `${lineMargin}${lineMarker}`;
-};
-*/
-
 const defineIndent = (margin, marker) => `${margin}${marker}`;
 
+// const defineVal = (val) => stringify(val, )
+
 const createLine = (key, value, indent) => `${indent}${key}: ${value}`;
-
-/*
-const treatUpdatedNode = (node, lineVal, margin, replacer) => {
-  const { val } = node;
-  const lines = val.map((child) => {
-    const marker = defineMarker(child.state, replacer);
-    return createLine(key, lineVal, defineIndent(margin, marker));
-  });
-  return lines;
-};
-*/
-/*
-const treatUpdatedNode = (node, marker, margin) => {
-  const { key, val, state } = node;
-  // const margin = defineMargin(depth * indentBase, replacer);
-
-  if (state === 'updated') {
-    const [oldVal, newVal] = val;
-    const oldValMarker = defineMarker(oldVal.state, replacer);
-    const newValMarker = defineMarker(newVal.state, replacer);
-    return [
-      createLine(
-        key,
-        stringify(oldVal.val, indentBase, depth + 1, replacer),
-        defineIndent(margin, oldValMarker),
-      ),
-      createLine(
-        key,
-        stringify(newVal.val, indentBase, depth + 1, replacer),
-        defineIndent(margin, newValMarker),
-      ),
-    ];
-  }
-}
-*/
 
 const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
     const lines = diffs.map((node) => {
       const { key, val, state } = node;
       const margin = defineMargin(depth * indentBase, replacer);
+      const marker = defineMarker(state, replacer);
+      const defineLineVal = (value) => stringify(value, indentBase, depth + 1);
 
       if (state === 'updated') {
         const [oldVal, newVal] = val;
-        const oldValMarker = defineMarker(oldVal.state, replacer);
-        const newValMarker = defineMarker(newVal.state, replacer);
         return [
-          createLine(
-            key,
-            stringify(oldVal.val, indentBase, depth + 1, replacer),
-            defineIndent(margin, oldValMarker),
-          ),
-          createLine(
-            key,
-            stringify(newVal.val, indentBase, depth + 1, replacer),
-            defineIndent(margin, newValMarker),
-          ),
+          createLine(key, defineLineVal(oldVal.val), defineIndent(margin, marker.minusMarker)),
+          createLine(key, defineLineVal(newVal.val), defineIndent(margin, marker.plusMarker)),
         ];
       }
 
-      const marker = defineMarker(state, replacer);
       const lineIndent = defineIndent(margin, marker);
 
       if (state === 'diffSubTree') {
         return createLine(key, iter(val, depth + 1), lineIndent);
       }
 
-      return createLine(key, stringify(val, indentBase, depth + 1, replacer), lineIndent);
+      return createLine(key, defineLineVal(val), lineIndent);
     });
 
-    // return `\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}`;
     return `{\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
   };
 
@@ -127,6 +77,7 @@ const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
 };
 
 export default stylish;
+
 /*
 const diffs = [
   {
