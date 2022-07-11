@@ -27,8 +27,6 @@ const defineMarker = (state, replacer) => {
     case 'unchanged':
     case 'diffSubTree':
       return blankMarker;
-    case 'updated':
-      return { minusMarker, plusMarker };
     default:
       throw new Error(`Unknown state: '${state}'!`);
   }
@@ -41,12 +39,41 @@ const defineMargin = (indentSize, replacer, markerLength = 2) => {
 
 const defineIndent = (margin, marker) => `${margin}${marker}`;
 
-// const defineVal = (val) => stringify(val, )
-
 const createLine = (key, value, indent) => `${indent}${key}: ${value}`;
+
+const turnNodesToLines = (nodes, defineLineVal, margin, replacer) => {
+  const lines = nodes.map((node) => {
+    if (node.state === 'updated') {
+      return turnNodesToLines(node.val, defineLineVal, margin, replacer);
+    }
+    const marker = defineMarker(node.state, replacer);
+    const indent = defineIndent(margin, marker);
+    const line = createLine(node.key, defineLineVal(node), indent);
+    return line;
+  });
+  return lines;
+};
 
 const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
   const iter = (diffs, depth) => {
+    const margin = defineMargin(depth * indentBase, replacer);
+    const getLineContent = (node) => {
+      switch (node.state) {
+        case 'diffSubTree':
+          return iter(node.val, depth + 1);
+
+        case 'deleted':
+        case 'added':
+        case 'updated':
+        case 'unchanged':
+          return stringify(node.val, indentBase, depth + 1);
+
+        default:
+          throw new Error(`Unknown node state: '${node.state}'!`);
+      }
+    };
+    const lines = turnNodesToLines(diffs, getLineContent, margin, replacer);
+    /*
     const lines = diffs.map((node) => {
       const { key, val, state } = node;
       const margin = defineMargin(depth * indentBase, replacer);
@@ -69,7 +96,7 @@ const stylish = (diffsTree, indentBase = 4, replacer = ' ') => {
 
       return createLine(key, defineLineVal(val), lineIndent);
     });
-
+    */
     return `{\n${lines.flat().join('\n')}\n${replacer.repeat(depth * indentBase - indentBase)}}`;
   };
 
