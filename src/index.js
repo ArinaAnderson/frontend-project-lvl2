@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from './parsers.js';
 import buildDiffTree from './buildDiffTree.js';
-import getFormatter from './formatters/index.js';
+import format from './formatters/index.js';
 
 const getAbsoluteFilePath = (fileName) => path.resolve(process.cwd(), fileName);
 const readFileContent = (filePath) => fs.readFileSync(filePath, 'utf-8');
@@ -22,9 +22,9 @@ const genDiff = (file1, file2, formatName = 'stylish') => {
 
   const diffsObj = buildDiffTree(obj1, obj2);
 
-  const format = getFormatter(formatName);
+  // const format = getFormatter(formatName);
 
-  const result = format(diffsObj);
+  const result = format(diffsObj, formatName);
   return result;
 };
 
