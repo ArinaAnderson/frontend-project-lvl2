@@ -11,8 +11,8 @@ const genDiff = (file1, file2, formatName = 'stylish') => {
   const absoluteFile1Path = getAbsoluteFilePath(file1);
   const absoluteFile2Path = getAbsoluteFilePath(file2);
 
-  const file1Format = path.extname(absoluteFile1Path);
-  const file2Format = path.extname(absoluteFile2Path);
+  const file1Format = path.extname(absoluteFile1Path).substring(1);
+  const file2Format = path.extname(absoluteFile2Path).substring(1);
 
   const file1Content = readFileContent(absoluteFile1Path);
   const file2Content = readFileContent(absoluteFile2Path);
