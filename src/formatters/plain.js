@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const startLine = (keyPath) => `Property '${keyPath}' was`;
 
-const processVal = (val) => {
+const stringify = (val) => {
   if (_.isObject(val)) {
     return '[complex value]';
   }
@@ -11,7 +11,7 @@ const processVal = (val) => {
     return `'${val}'`;
   }
 
-  return val;
+  return `${val}`;
 };
 
 const iterDiffs = (diffs, parentKey = '') => {
@@ -25,10 +25,10 @@ const iterDiffs = (diffs, parentKey = '') => {
         return iterDiffs(val, keyPath);
 
       case 'updated':
-        return `${lineStart} updated. From ${processVal(val[0].val)} to ${processVal(val[1].val)}`;
+        return `${lineStart} updated. From ${stringify(val[0].val)} to ${stringify(val[1].val)}`;
 
       case 'added':
-        return `${lineStart} added with value: ${processVal(val)}`;
+        return `${lineStart} added with value: ${stringify(val)}`;
 
       case 'deleted':
         return `${lineStart} removed`;
