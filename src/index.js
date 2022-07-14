@@ -22,8 +22,6 @@ const genDiff = (file1, file2, formatName = 'stylish') => {
 
   const diffsObj = buildDiffTree(obj1, obj2);
 
-  // const format = getFormatter(formatName);
-
   const result = format(diffsObj, formatName);
   return result;
 };
